@@ -1,16 +1,16 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: [ "build", "-t", "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest", "." ]
+    args: [ "build", "-t", "us-central1-docker.pkg.dev/devsecops-multicloud/devsecops-artifact/app:latest", "." ]
     dir: "lock-in-vendor-aws/gcp-workflow-migration"
   - name: "gcr.io/cloud-builders/docker"
-    args: [ "push", "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest" ]
+    args: [ "push", "us-central1-docker.pkg.dev/devsecops-multicloud/devsecops-artifact/app:latest" ]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
       - run
       - deploy
       - app-service
-      - --image=us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest
+      - --image=us-central1-docker.pkg.dev/devsecops-multicloud/devsecops-artifact/app:latest
       - --region=us-central1
       - --platform=managed
       - --allow-unauthenticated
@@ -18,6 +18,6 @@ steps:
 #   _REGION: us-central1
 #   _devsecops-multicloud: devsecops-multicloud
 images:
-  - "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest"
+  - "us-central1-docker.pkg.dev/devsecops-multicloud/devsecops-artifact/app:latest"
 options:
   logging: CLOUD_LOGGING_ONLY
