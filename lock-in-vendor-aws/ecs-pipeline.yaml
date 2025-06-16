@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Aplicação Python em ECS Fargate
+Description: Aplicacao  Python em ECS Fargate
 
 Parameters:
   AppName:
@@ -114,115 +114,6 @@ Resources:
           Subnets: [!Ref Subnet]
           SecurityGroups: [!Ref SecurityGroup]
       TaskDefinition: !Ref TaskDefinition
-
-  # BuildRole:
-  #   Type: AWS::IAM::Role
-  #   Properties:
-  #     AssumeRolePolicyDocument:
-  #       Version: 2012-10-17
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service: codebuild.amazonaws.com
-  #           Action: sts:AssumeRole
-  #     ManagedPolicyArns:
-  #       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
-  #       - arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess
-
-  # CodeBuildProject:
-  #   Type: AWS::CodeBuild::Project
-  #   Properties:
-  #     Name: !Sub ${AppName}-build
-  #     Source:
-  #       Type: GITHUB
-  #       Location: !Sub https://github.com/${GitHubRepo}.git
-  #       GitCloneDepth: 1
-  #       BuildSpec: buildspec.yml
-  #     Artifacts:
-  #       Type: CODEPIPELINE
-  #     Environment:
-  #       ComputeType: BUILD_GENERAL1_SMALL
-  #       Image: aws/codebuild/standard:6.0
-  #       Type: LINUX_CONTAINER
-  #       PrivilegedMode: true
-  #       EnvironmentVariables:
-  #         - Name: AWS_ACCOUNT_ID
-  #           Value: !Sub "${AWS::AccountId}"
-  #         - Name: AWS_DEFAULT_REGION
-  #           Value: !Ref AWS::Region
-  #     ServiceRole: !GetAtt BuildRole.Arn
-
-  # PipelineRole:
-  #   Type: AWS::IAM::Role
-  #   Properties:
-  #     AssumeRolePolicyDocument:
-  #       Version: 2012-10-17
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service: codepipeline.amazonaws.com
-  #           Action: sts:AssumeRole
-  #     ManagedPolicyArns:
-  #       - arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
-  #       - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
-  #       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
-  #       - arn:aws:iam::aws:policy/AmazonECSFullAccess
-
-  # PipelineArtifactStore:
-  #   Type: AWS::S3::Bucket
-
-  # CodePipeline:
-  #   Type: AWS::CodePipeline::Pipeline
-  #   Properties:
-  #     RoleArn: !GetAtt PipelineRole.Arn
-  #     ArtifactStore:
-  #       Type: S3
-  #       Location: !Ref PipelineArtifactStore
-  #     Stages:
-  #       - Name: Source
-  #         Actions:
-  #           - Name: GitHubSource
-  #             ActionTypeId:
-  #               Category: Source
-  #               Owner: ThirdParty
-  #               Provider: GitHub
-  #               Version: 1
-  #             OutputArtifacts:
-  #               - Name: SourceOutput
-  #             Configuration:
-  #               Owner: !Select [0, !Split ["/", !Ref GitHubRepo]]
-  #               Repo: !Select [1, !Split ["/", !Ref GitHubRepo]]
-  #               Branch: !Ref GitHubBranch
-  #               OAuthToken: !Ref GitHubToken
-  #       - Name: Build
-  #         Actions:
-  #           - Name: BuildDockerImage
-  #             ActionTypeId:
-  #               Category: Build
-  #               Owner: AWS
-  #               Provider: CodeBuild
-  #               Version: 1
-  #             InputArtifacts:
-  #               - Name: SourceOutput
-  #             OutputArtifacts:
-  #               - Name: BuildOutput
-  #             Configuration:
-  #               ProjectName: !Ref CodeBuildProject
-  #       - Name: Deploy
-  #         Actions:
-  #           - Name: DeployToECS
-  #             ActionTypeId:
-  #               Category: Deploy
-  #               Owner: AWS
-  #               Provider: ECS
-  #               Version: 1
-  #             InputArtifacts:
-  #               - Name: BuildOutput
-  #             Configuration:
-  #               ClusterName: !Ref ECSCluster
-  #               ServiceName: !Ref ECSService
-  #               FileName: imagedefinitions.json
-
 Outputs:
   ServiceIP:
     Description: "IP público da task ECS (obtenha no console)"
