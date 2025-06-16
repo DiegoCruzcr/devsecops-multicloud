@@ -1,22 +1,22 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: [ "build", "-t", "REGION-docker.pkg.dev/PROJECT_ID/app-repo/app:latest", "." ]
+    args: [ "build", "-t", "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest", "." ]
   - name: "gcr.io/cloud-builders/docker"
-    args: [ "push", "REGION-docker.pkg.dev/PROJECT_ID/app-repo/app:latest" ]
+    args: [ "push", "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest" ]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
       - run
       - deploy
       - app-service
-      - --image=REGION-docker.pkg.dev/PROJECT_ID/app-repo/app:latest
-      - --region=REGION
+      - --image=us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest
+      - --region=us-central1
       - --platform=managed
       - --allow-unauthenticated
-substitutions:
-  _REGION: us-central1
-  _PROJECT_ID: devsecops-multicloud
+# substitutions:
+#   _REGION: us-central1
+#   _devsecops-multicloud: devsecops-multicloud
 images:
-  - "REGION-docker.pkg.dev/PROJECT_ID/app-repo/app:latest"
+  - "us-central1-docker.pkg.dev/devsecops-multicloud/app-repo/app:latest"
 options:
   logging: CLOUD_LOGGING_ONLY
