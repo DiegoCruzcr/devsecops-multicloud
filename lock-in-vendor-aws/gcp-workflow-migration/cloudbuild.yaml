@@ -18,3 +18,5 @@ substitutions:
   _PROJECT_ID: devsecops-multicloud
 images:
   - "REGION-docker.pkg.dev/PROJECT_ID/app-repo/app:latest"
+options:
+  logging: CLOUD_LOGGING_ONLY
