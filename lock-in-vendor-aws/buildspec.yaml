@@ -14,7 +14,6 @@ phases:
   post_build:
     commands:
       - echo "Fazendo push da imagem para o ECR"
-      - cd lock-in-vendor-aws
       - docker push 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
       - echo "Criando artefato de imagem para deploy"
       - printf '[{"name":"container-name","imageUri":"%s"}]' 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest > imagedefinitions.json
