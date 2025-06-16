@@ -1,17 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CI/CD para aplicação Python em ECS Fargate via CodePipeline
+Description: Aplicação Python em ECS Fargate
 
 Parameters:
-  # GitHubRepo:
-  #   Type: String
-  #   Description: Nome do repositório GitHub (ex: usuario/repositorio)
-  # GitHubBranch:
-  #   Type: String
-  #   Default: main
-  # GitHubToken:
-  #   Type: String
-  #   NoEcho: true
-  #   Description: GitHub OAuth Token para acesso ao repo
   AppName:
     Type: String
     Default: python-app-devsecops
@@ -107,7 +97,7 @@ Resources:
       ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
       ContainerDefinitions:
         - Name: !Ref AppName
-          Image: "PLACEHOLDER" # será substituído pela imagem do pipeline
+          Image: "amazon/amazon-ecs-sample" # será substituído pela imagem do pipeline
           PortMappings:
             - ContainerPort: 5000
 
