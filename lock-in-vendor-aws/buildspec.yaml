@@ -19,4 +19,4 @@ phases:
       - printf '[{"name":"container-name","imageUri":"%s"}]' 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest > imagedefinitions.json
 
 artifacts:
-  files: imagedefinitions.json
+  files: lock-in-vendor-aws/imagedefinitions.json
