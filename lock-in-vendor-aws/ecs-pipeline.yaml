@@ -1,0 +1,239 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CI/CD para aplicação Python em ECS Fargate via CodePipeline
+
+Parameters:
+  # GitHubRepo:
+  #   Type: String
+  #   Description: Nome do repositório GitHub (ex: usuario/repositorio)
+  # GitHubBranch:
+  #   Type: String
+  #   Default: main
+  # GitHubToken:
+  #   Type: String
+  #   NoEcho: true
+  #   Description: GitHub OAuth Token para acesso ao repo
+  AppName:
+    Type: String
+    Default: python-app-devsecops
+
+Resources:
+
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Ref AppName
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: python-app-vpc
+
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  Route:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref RouteTable
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow TCP 5000 for Flask app
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 0.0.0.0/0
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Ref AppName
+      RequiresCompatibilities: [FARGATE]
+      Cpu: "256"
+      Memory: "512"
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: !Ref AppName
+          Image: "PLACEHOLDER" # será substituído pela imagem do pipeline
+          PortMappings:
+            - ContainerPort: 5000
+
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: AttachGateway
+    Properties:
+      Cluster: !Ref ECSCluster
+      LaunchType: FARGATE
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref Subnet]
+          SecurityGroups: [!Ref SecurityGroup]
+      TaskDefinition: !Ref TaskDefinition
+
+  # BuildRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service: codebuild.amazonaws.com
+  #           Action: sts:AssumeRole
+  #     ManagedPolicyArns:
+  #       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+  #       - arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess
+
+  # CodeBuildProject:
+  #   Type: AWS::CodeBuild::Project
+  #   Properties:
+  #     Name: !Sub ${AppName}-build
+  #     Source:
+  #       Type: GITHUB
+  #       Location: !Sub https://github.com/${GitHubRepo}.git
+  #       GitCloneDepth: 1
+  #       BuildSpec: buildspec.yml
+  #     Artifacts:
+  #       Type: CODEPIPELINE
+  #     Environment:
+  #       ComputeType: BUILD_GENERAL1_SMALL
+  #       Image: aws/codebuild/standard:6.0
+  #       Type: LINUX_CONTAINER
+  #       PrivilegedMode: true
+  #       EnvironmentVariables:
+  #         - Name: AWS_ACCOUNT_ID
+  #           Value: !Sub "${AWS::AccountId}"
+  #         - Name: AWS_DEFAULT_REGION
+  #           Value: !Ref AWS::Region
+  #     ServiceRole: !GetAtt BuildRole.Arn
+
+  # PipelineRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service: codepipeline.amazonaws.com
+  #           Action: sts:AssumeRole
+  #     ManagedPolicyArns:
+  #       - arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
+  #       - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
+  #       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+  #       - arn:aws:iam::aws:policy/AmazonECSFullAccess
+
+  # PipelineArtifactStore:
+  #   Type: AWS::S3::Bucket
+
+  # CodePipeline:
+  #   Type: AWS::CodePipeline::Pipeline
+  #   Properties:
+  #     RoleArn: !GetAtt PipelineRole.Arn
+  #     ArtifactStore:
+  #       Type: S3
+  #       Location: !Ref PipelineArtifactStore
+  #     Stages:
+  #       - Name: Source
+  #         Actions:
+  #           - Name: GitHubSource
+  #             ActionTypeId:
+  #               Category: Source
+  #               Owner: ThirdParty
+  #               Provider: GitHub
+  #               Version: 1
+  #             OutputArtifacts:
+  #               - Name: SourceOutput
+  #             Configuration:
+  #               Owner: !Select [0, !Split ["/", !Ref GitHubRepo]]
+  #               Repo: !Select [1, !Split ["/", !Ref GitHubRepo]]
+  #               Branch: !Ref GitHubBranch
+  #               OAuthToken: !Ref GitHubToken
+  #       - Name: Build
+  #         Actions:
+  #           - Name: BuildDockerImage
+  #             ActionTypeId:
+  #               Category: Build
+  #               Owner: AWS
+  #               Provider: CodeBuild
+  #               Version: 1
+  #             InputArtifacts:
+  #               - Name: SourceOutput
+  #             OutputArtifacts:
+  #               - Name: BuildOutput
+  #             Configuration:
+  #               ProjectName: !Ref CodeBuildProject
+  #       - Name: Deploy
+  #         Actions:
+  #           - Name: DeployToECS
+  #             ActionTypeId:
+  #               Category: Deploy
+  #               Owner: AWS
+  #               Provider: ECS
+  #               Version: 1
+  #             InputArtifacts:
+  #               - Name: BuildOutput
+  #             Configuration:
+  #               ClusterName: !Ref ECSCluster
+  #               ServiceName: !Ref ECSService
+  #               FileName: imagedefinitions.json
+
+Outputs:
+  ServiceIP:
+    Description: "IP público da task ECS (obtenha no console)"
+    Value: "Verifique no console AWS ECS → sua task → Network → Public IP"

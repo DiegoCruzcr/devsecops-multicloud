@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logando no ECR"
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - echo "Construindo a imagem Docker"
+      - docker build -t my-python-app .
+      - docker tag my-python-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/my-python-app:latest
+  post_build:
+    commands:
+      - echo "Fazendo push da imagem para o ECR"
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/my-python-app:latest
+      - echo "Criando artefato de imagem para deploy"
+      - printf '[{"name":"container-name","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/my-python-app:latest > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
