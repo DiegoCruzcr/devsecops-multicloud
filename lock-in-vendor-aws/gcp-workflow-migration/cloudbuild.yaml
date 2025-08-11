@@ -14,6 +14,7 @@ steps:
       - --region=us-central1
       - --platform=managed
       - --allow-unauthenticated
+      - --port=5000
 # substitutions:
 #   _REGION: us-central1
 #   _devsecops-multicloud: devsecops-multicloud
