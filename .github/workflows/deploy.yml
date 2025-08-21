@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write   # necessário para OIDC
+      contents: read    # geralmente precisa para checkout do código
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
