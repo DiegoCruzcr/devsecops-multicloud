@@ -10,7 +10,6 @@ variable "cluster_name" {
 
 variable "subnet_ids" {
   type    = list(string)
-  default = ["subnet-xxxxxx", "subnet-yyyyyy"]
 }
 
 variable "node_desired_size" {
