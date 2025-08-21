@@ -60,7 +60,6 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL'
-      working-directory: ./multicloud/k8s
 
     # - name: Push Docker image
     #   run: |
