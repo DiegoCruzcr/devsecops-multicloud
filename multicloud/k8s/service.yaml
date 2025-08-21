@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minha-app-repo-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: minha-app-repo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
