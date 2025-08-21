@@ -8,7 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      IMAGE_TAG: minha-app-repo/minha-app:latest
     permissions:
       id-token: write   # necessário para OIDC
       contents: read    # geralmente precisa para checkout do código
@@ -28,34 +29,48 @@ jobs:
       with:
         terraform_version: 1.12.2
     
-    - name: Terraform Init
-      run: terraform init
-      working-directory: ./multicloud/terraform
+    # - name: Terraform Init
+    #   run: terraform init
+    #   working-directory: ./multicloud/terraform
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-      working-directory: ./multicloud/terraform
+    # - name: Terraform Apply
+    #   run: terraform apply -auto-approve
+    #   working-directory: ./multicloud/terraform
 
-    - name: Setup kubectl
-      run: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
+    # - name: Setup kubectl
+    #   run: |
+    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #     chmod +x kubectl
+    #     sudo mv kubectl /usr/local/bin/
 
-    - name: Update kubeconfig
-      run: aws eks update-kubeconfig --region us-east-1 --name meu-cluster-eks
+    # - name: Update kubeconfig
+    #   run: aws eks update-kubeconfig --region us-east-1 --name meu-cluster-eks
 
     - name: Build Docker image
       run: |
-        IMAGE_TAG=minha-app-repo/minha-app:latest
         docker build -t $IMAGE_TAG .
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-        docker tag $IMAGE_TAG ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
-        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
       working-directory: ./multicloud/k8s
 
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f k8s/deployment.yaml
-        kubectl apply -f k8s/service.yaml
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: $IMAGE_TAG
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL'
       working-directory: ./multicloud/k8s
+
+    # - name: Push Docker image
+    #   run: |
+    #     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+    #     docker tag $IMAGE_TAG ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
+    #     docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
+    #   working-directory: ./multicloud/k8s
+
+    # - name: Deploy to Kubernetes
+    #   run: |
+    #     kubectl apply -f k8s/deployment.yaml
+    #     kubectl apply -f k8s/service.yaml
+    #   working-directory: ./multicloud/k8s
