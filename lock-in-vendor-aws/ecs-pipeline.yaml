@@ -4,7 +4,7 @@ Description: Aplicacao  Python em ECS Fargate
 Parameters:
   AppName:
     Type: String
-    Default: python-app-devsecops
+    Default: python-app-devsecops-stack
 
 Resources:
 

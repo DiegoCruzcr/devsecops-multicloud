@@ -2,6 +2,13 @@ provider "aws" {
   region = var.region
 }
 
+# provider "google" {
+#   project = var.project_id
+#   region  = var.google_region
+# }
+
+# data "google_client_config" "provider" {}
+
 module "network" {
   source             = "./modules/aws/network"
   vpc_cidr           = "10.20.0.0/16"
@@ -37,4 +44,30 @@ module "containers_repository" {
     Project     = "minha-app"
   }
 }
+
+# Google Cloud modules
+# module "google_network" {
+#   source                        = "./modules/google/network"
+#   region                        = var.google_region
+# }
+
+# module "google_containers_repository" {
+#   source          = "./modules/google/containers_repository"
+#   repository_name = "minha-app-repo"
+#   location        = var.google_region
+#   labels = {
+#     environment = "dev"
+#     project     = "minha-app"
+#   }
+# }
+
+# module "google_gke" {
+#   source                        = "./modules/google/gke"
+#   region                        = var.google_region
+#   network                       = module.google_network.network_name
+#   subnetwork                    = module.google_network.subnetwork_name
+#   services_secondary_range_name = "services-range"
+#   cluster_secondary_range_name  = "pod-ranges"
+#   depends_on                    = [module.google_network]
+# }
 

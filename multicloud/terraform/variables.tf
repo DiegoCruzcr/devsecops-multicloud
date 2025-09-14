@@ -8,10 +8,6 @@ variable "cluster_name" {
   default = "meu-cluster-eks"
 }
 
-variable "subnet_ids" {
-  type    = list(string)
-}
-
 variable "node_desired_size" {
   type    = number
   default = 2
@@ -19,10 +15,20 @@ variable "node_desired_size" {
 
 variable "node_max_size" {
   type    = number
-  default = 3
+  default = 2
 }
 
 variable "node_min_size" {
   type    = number
   default = 1
+}
+
+variable "project_id" {
+  type    = string
+  default = "devsecops-multicloud"
+}
+
+variable "google_region" {
+  type    = string
+  default = "us-central1"
 }

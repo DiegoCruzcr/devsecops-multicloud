@@ -7,4 +7,4 @@ def home():
     return "Hello from ECS!"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)  # 👈 Bate com o ContainerPort
+    app.run(host="0.0.0.0", port=5000)

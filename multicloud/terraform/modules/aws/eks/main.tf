@@ -21,5 +21,7 @@ resource "aws_eks_node_group" "node_group" {
     min_size     = var.node_min_size
   }
 
+  instance_types = ["t2.small"]
+
   depends_on = [aws_eks_cluster.cluster]
 }

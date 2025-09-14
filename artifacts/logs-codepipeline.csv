@@ -1,0 +1,423 @@
+timestamp,message
+1750081777122,"[Container] 2025/06/16 13:49:31.447109 Running on CodeBuild On-demand
+"
+1750081777122,"[Container] 2025/06/16 13:49:31.447119 Waiting for agent ping
+"
+1750081777122,"[Container] 2025/06/16 13:49:31.748960 Waiting for DOWNLOAD_SOURCE
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.005954 Phase is DOWNLOAD_SOURCE
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.007039 CODEBUILD_SRC_DIR=/codebuild/output/src1467700596/src
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.008073 YAML location is /codebuild/output/src1467700596/src/lock-in-vendor-aws/buildspec.yaml
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.009867 Setting HTTP client timeout to higher timeout for S3 source
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.009947 Processing environment variables
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.356799 No runtime version selected in buildspec.
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.383998 Moving to directory /codebuild/output/src1467700596/src
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.384021 Cache is not defined in the buildspec
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.493670 Skip cache due to: no paths specified to be cached
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.493969 Registering with agent
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.601767 Phases found in YAML: 3
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.601793  PRE_BUILD: 2 commands
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.601798  BUILD: 4 commands
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.601802  POST_BUILD: 4 commands
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.602089 Phase complete: DOWNLOAD_SOURCE State: SUCCEEDED
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.602100 Phase context status code:  Message: 
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.723699 Entering phase INSTALL
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.832696 Phase complete: INSTALL State: SUCCEEDED
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.832718 Phase context status code:  Message: 
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.870245 Entering phase PRE_BUILD
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.975118 Running command echo ""Logando no ECR""
+"
+1750081777122,"Logando no ECR
+"
+1750081777122,"
+"
+1750081777122,"[Container] 2025/06/16 13:49:33.980771 Running command aws ecr get-login-password | docker login --username AWS --password-stdin 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops
+"
+1750081787173,"WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+"
+1750081787173,"Configure a credential helper to remove this warning. See
+"
+1750081787173,"https://docs.docker.com/engine/reference/commandline/login/#credential-stores
+"
+1750081787173,"
+"
+1750081787173,"Login Succeeded
+"
+1750081787173,"
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.099306 Phase complete: PRE_BUILD State: SUCCEEDED
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.099321 Phase context status code:  Message: 
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.135242 Entering phase BUILD
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.136205 Running command echo ""Construindo a imagem Docker""
+"
+1750081787173,"Construindo a imagem Docker
+"
+1750081787173,"
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.142775 Running command cd lock-in-vendor-aws
+"
+1750081787173,"
+"
+1750081787173,"[Container] 2025/06/16 13:49:46.149388 Running command docker build -t python-app-devsecops .
+"
+1750081787173,"#0 building with ""default"" instance using docker driver
+"
+1750081787173,"
+"
+1750081787173,"#1 [internal] load build definition from Dockerfile
+"
+1750081787173,"#1 transferring dockerfile: 189B done
+"
+1750081787173,"#1 DONE 0.0s
+"
+1750081787173,"
+"
+1750081787173,"#2 [internal] load metadata for public.ecr.aws/docker/library/python:3.12.11
+"
+1750081787173,"#2 DONE 0.4s
+"
+1750081787173,"
+"
+1750081787173,"#3 [internal] load .dockerignore
+"
+1750081787173,"#3 transferring context: 2B done
+"
+1750081787173,"#3 DONE 0.0s
+"
+1750081787173,"
+"
+1750081787173,"#4 [internal] load build context
+"
+1750081787173,"#4 transferring context: 8.96kB done
+"
+1750081787173,"#4 DONE 0.0s
+"
+1750081787173,"
+"
+1750081787173,"#5 [1/4] FROM public.ecr.aws/docker/library/python:3.12.11@sha256:47d28e7d429679c31c3ea60e90857c54c7967084685e2ee287935116e5a79b92
+"
+1750081787173,"#5 resolve public.ecr.aws/docker/library/python:3.12.11@sha256:47d28e7d429679c31c3ea60e90857c54c7967084685e2ee287935116e5a79b92 0.0s done
+"
+1750081787173,"#5 sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226 4.19MB / 48.49MB 0.1s
+"
+1750081787173,"#5 sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f 10.49MB / 24.02MB 0.1s
+"
+1750081787173,"#5 sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 0B / 64.40MB 0.1s
+"
+1750081787173,"#5 sha256:47d28e7d429679c31c3ea60e90857c54c7967084685e2ee287935116e5a79b92 9.08kB / 9.08kB done
+"
+1750081787173,"#5 sha256:7cf7b1899431ac1e4f5ba6c4a03263504e67b1eaafbad48224279a3fdca6474d 2.33kB / 2.33kB done
+"
+1750081787173,"#5 sha256:8c5092866cc65789229bee8e4277b18dba78337ef607fa94f01500c003439435 6.46kB / 6.46kB done
+"
+1750081787173,"#5 sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226 42.99MB / 48.49MB 0.3s
+"
+1750081787173,"#5 sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f 24.02MB / 24.02MB 0.2s done
+"
+1750081787173,"#5 sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 37.90MB / 64.40MB 0.3s
+"
+1750081787173,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 14.68MB / 211.37MB 0.3s
+"
+1750081789206,"#5 sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226 48.49MB / 48.49MB 0.4s done
+"
+1750081789206,"#5 sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 57.67MB / 64.40MB 0.4s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 29.36MB / 211.37MB 0.4s
+"
+1750081789206,"#5 sha256:3e73df2bd765d17e532b4c9ee3b044ffcac7b9c987b93612c18d7bb28a1e8f14 0B / 6.16MB 0.4s
+"
+1750081789206,"#5 extracting sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226
+"
+1750081789206,"#5 sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 64.40MB / 64.40MB 0.5s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 49.28MB / 211.37MB 0.5s
+"
+1750081789206,"#5 sha256:3e73df2bd765d17e532b4c9ee3b044ffcac7b9c987b93612c18d7bb28a1e8f14 6.16MB / 6.16MB 0.5s
+"
+1750081789206,"#5 sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 64.40MB / 64.40MB 0.5s done
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 66.06MB / 211.37MB 0.6s
+"
+1750081789206,"#5 sha256:3e73df2bd765d17e532b4c9ee3b044ffcac7b9c987b93612c18d7bb28a1e8f14 6.16MB / 6.16MB 0.5s done
+"
+1750081789206,"#5 sha256:d8355a174360219d6c65a7df386f05174b4bde1087d6bd20bdef83161f629fbd 250B / 250B 0.6s done
+"
+1750081789206,"#5 sha256:89c795061f65654bcbe5d236880a236a4cb44f702440e5fa497aed0516578e9c 8.39MB / 25.65MB 0.6s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 82.84MB / 211.37MB 0.7s
+"
+1750081789206,"#5 sha256:89c795061f65654bcbe5d236880a236a4cb44f702440e5fa497aed0516578e9c 25.65MB / 25.65MB 0.7s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 104.86MB / 211.37MB 0.8s
+"
+1750081789206,"#5 sha256:89c795061f65654bcbe5d236880a236a4cb44f702440e5fa497aed0516578e9c 25.65MB / 25.65MB 0.7s done
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 122.68MB / 211.37MB 0.9s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 162.53MB / 211.37MB 1.1s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 183.50MB / 211.37MB 1.2s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 204.47MB / 211.37MB 1.3s
+"
+1750081789206,"#5 sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 211.37MB / 211.37MB 1.5s done
+"
+1750081789206,"#5 extracting sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226 1.7s done
+"
+1750081789206,"#5 extracting sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f
+"
+1750081791222,"#5 extracting sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f 0.4s done
+"
+1750081791222,"#5 extracting sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 0.1s
+"
+1750081793234,"#5 extracting sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 1.9s done
+"
+1750081793234,"#5 extracting sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d
+"
+1750081797248,"#5 extracting sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 5.0s done
+"
+1750081797248,"#5 extracting sha256:3e73df2bd765d17e532b4c9ee3b044ffcac7b9c987b93612c18d7bb28a1e8f14
+"
+1750081797248,"#5 extracting sha256:3e73df2bd765d17e532b4c9ee3b044ffcac7b9c987b93612c18d7bb28a1e8f14 0.2s done
+"
+1750081797248,"#5 extracting sha256:89c795061f65654bcbe5d236880a236a4cb44f702440e5fa497aed0516578e9c 0.1s
+"
+1750081799264,"#5 extracting sha256:89c795061f65654bcbe5d236880a236a4cb44f702440e5fa497aed0516578e9c 0.6s done
+"
+1750081799264,"#5 extracting sha256:d8355a174360219d6c65a7df386f05174b4bde1087d6bd20bdef83161f629fbd done
+"
+1750081799264,"#5 DONE 11.1s
+"
+1750081799264,"
+"
+1750081799264,"#6 [2/4] WORKDIR /app
+"
+1750081801283,"#6 DONE 1.8s
+"
+1750081801283,"
+"
+1750081801283,"#7 [3/4] COPY . /app
+"
+1750081801283,"#7 DONE 0.1s
+"
+1750081801283,"
+"
+1750081801283,"#8 [4/4] RUN pip install -r requirements.txt
+"
+1750081803295,"#8 1.743 Collecting flask (from -r requirements.txt (line 1))
+"
+1750081803295,"#8 1.783   Downloading flask-3.1.1-py3-none-any.whl.metadata (3.0 kB)
+"
+1750081803295,"#8 1.801 Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.805   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+"
+1750081803295,"#8 1.828 Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.831   Downloading click-8.2.1-py3-none-any.whl.metadata (2.5 kB)
+"
+1750081803295,"#8 1.849 Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.853   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+"
+1750081803295,"#8 1.879 Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.882   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+"
+1750081803295,"#8 1.934 Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.937   Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+"
+1750081803295,"#8 1.965 Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+"
+1750081803295,"#8 1.969   Downloading werkzeug-3.1.3-py3-none-any.whl.metadata (3.7 kB)
+"
+1750081803295,"#8 1.983 Downloading flask-3.1.1-py3-none-any.whl (103 kB)
+"
+1750081803295,"#8 1.999 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+"
+1750081803295,"#8 2.007 Downloading click-8.2.1-py3-none-any.whl (102 kB)
+"
+1750081803295,"#8 2.016 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+"
+1750081803295,"#8 2.024 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+"
+1750081803295,"#8 2.033 Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (23 kB)
+"
+1750081803295,"#8 2.041 Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+"
+1750081803295,"#8 2.069 Installing collected packages: markupsafe, itsdangerous, click, blinker, werkzeug, jinja2, flask
+"
+1750081803295,"#8 2.448 Successfully installed blinker-1.9.0 click-8.2.1 flask-3.1.1 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.2 werkzeug-3.1.3
+"
+1750081803295,"#8 2.449 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+"
+1750081803295,"#8 2.558 
+"
+1750081803295,"#8 2.558 [notice] A new release of pip is available: 25.0.1 -> 25.1.1
+"
+1750081803295,"#8 2.558 [notice] To update, run: pip install --upgrade pip
+"
+1750081803295,"#8 DONE 2.8s
+"
+1750081803295,"
+"
+1750081803295,"#9 exporting to image
+"
+1750081803295,"#9 exporting layers 0.1s done
+"
+1750081803295,"#9 writing image sha256:8bae7fab7f2ffb4e06a06a334ab5d73ae792a4b5b4afaf3e11335f15a08e354f done
+"
+1750081803295,"#9 naming to docker.io/library/python-app-devsecops done
+"
+1750081803295,"#9 DONE 0.1s
+"
+1750081803295,"
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.756281 Running command docker tag python-app-devsecops:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
+"
+1750081803295,"
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.779143 Phase complete: BUILD State: SUCCEEDED
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.779158 Phase context status code:  Message: 
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.819676 Entering phase POST_BUILD
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.820815 Running command echo ""Fazendo push da imagem para o ECR""
+"
+1750081803295,"Fazendo push da imagem para o ECR
+"
+1750081803295,"
+"
+1750081803295,"[Container] 2025/06/16 13:50:02.828344 Running command docker push 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
+"
+1750081803295,"The push refers to repository [782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops]
+"
+1750081803295,"9a9133202d44: Preparing
+"
+1750081803295,"bfee40e893fc: Preparing
+"
+1750081803295,"3a87d52e4c4b: Preparing
+"
+1750081803295,"6b05bceccc83: Preparing
+"
+1750081803295,"014bd1a1959f: Preparing
+"
+1750081803295,"00fafc3b6540: Preparing
+"
+1750081803295,"f9093a7aaa16: Preparing
+"
+1750081803295,"1c49688bd8eb: Preparing
+"
+1750081803295,"f5b8fb1def00: Preparing
+"
+1750081803295,"8f003894a7ef: Preparing
+"
+1750081803295,"1c49688bd8eb: Waiting
+"
+1750081803295,"00fafc3b6540: Waiting
+"
+1750081803295,"f9093a7aaa16: Waiting
+"
+1750081803295,"f5b8fb1def00: Waiting
+"
+1750081803295,"8f003894a7ef: Waiting
+"
+1750081803295,"6b05bceccc83: Layer already exists
+"
+1750081803295,"014bd1a1959f: Layer already exists
+"
+1750081803295,"00fafc3b6540: Layer already exists
+"
+1750081803295,"f9093a7aaa16: Layer already exists
+"
+1750081803295,"1c49688bd8eb: Layer already exists
+"
+1750081803295,"f5b8fb1def00: Layer already exists
+"
+1750081805309,"3a87d52e4c4b: Pushed
+"
+1750081805309,"bfee40e893fc: Pushed
+"
+1750081805309,"9a9133202d44: Pushed
+"
+1750081809324,"8f003894a7ef: Pushed
+"
+1750081809324,"latest: digest: sha256:51bb28d47a857ea21ad883b5dd692d03fba850d5dd738ebd3b69625398bc6fa3 size: 2422
+"
+1750081809324,"
+"
+1750081809324,"[Container] 2025/06/16 13:50:09.331449 Running command echo ""Criando artefato de imagem para deploy""
+"
+1750081809324,"Criando artefato de imagem para deploy
+"
+1750081809324,"
+"
+1750081809324,"[Container] 2025/06/16 13:50:09.339033 Running command printf '[{""name"":""python-app-devsecops"",""imageUri"":""%s""}]' 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest > imagedefinitions.json
+"
+1750081809324,"
+"
+1750081809324,"[Container] 2025/06/16 13:50:09.346635 Phase complete: POST_BUILD State: SUCCEEDED
+"
+1750081809324,"[Container] 2025/06/16 13:50:09.346660 Phase context status code:  Message: 
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.518154 Expanding base directory path: .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.521720 Assembling file list
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.521738 Expanding .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.524898 Expanding file paths for base directory .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.524912 Assembling file list
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.524917 Expanding lock-in-vendor-aws/imagedefinitions.json
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.528022 Found 1 file(s)
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.530441 Set report auto-discover timeout to 5 seconds
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.530529 Expanding base directory path:  .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.533685 Assembling file list
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.533699 Expanding .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.536783 Expanding file paths for base directory .
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.536796 Assembling file list
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.536799 Expanding **/*
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.539982 No matching auto-discover report paths found
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.540001 Report auto-discover file discovery took 0.009560 seconds
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.540016 Phase complete: UPLOAD_ARTIFACTS State: SUCCEEDED
+"
+1750081809881,"[Container] 2025/06/16 13:50:09.540026 Phase context status code:  Message: 
+"
