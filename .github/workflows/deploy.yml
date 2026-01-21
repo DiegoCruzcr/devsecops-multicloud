@@ -73,4 +73,5 @@ jobs:
       run: |
         kubectl apply -f deployment.yaml --validate=false
         kubectl apply -f service.yaml --validate=false
+        kubectl rollout restart deployment minha-app-repo
       working-directory: ./multicloud/k8s

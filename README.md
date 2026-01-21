@@ -188,7 +188,7 @@ kubectl apply -f service.yaml
 
 # Atualização de imagem (Rolling Update)
 kubectl set image deployment/minha-app-repo \
-  minha-app-repo=782622073147.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo:v0.0.2
+  minha-app-repo=782622073147.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo:latest
 
 # Verificação de status do rollout
 kubectl rollout status deployment/minha-app-repo
