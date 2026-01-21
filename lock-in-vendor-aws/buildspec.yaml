@@ -13,14 +13,14 @@ phases:
     commands:
       - echo "Construindo a imagem Docker"
       # - cd lock-in-vendor-aws
-      - docker build -t python-app-devsecops .
-      - docker tag python-app-devsecops:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
+      - docker build -t python-app-devsecops-stack .
+      - docker tag python-app-devsecops-stack:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
   post_build:
     commands:
       - echo "Fazendo push da imagem para o ECR"
-      - docker push 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
+      - docker push 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops-stack:latest
       - echo "Criando artefato de imagem para deploy"
-      - printf '[{"name":"python-app-devsecops","imageUri":"%s"}]' 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest > imagedefinitions.json
+      - printf '[{"name":"python-app-devsecops-stack","imageUri":"%s"}]' 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops-stack:latest > imagedefinitions.json
 
 artifacts:
   files: lock-in-vendor-aws/imagedefinitions.json
