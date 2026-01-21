@@ -1,76 +1,76 @@
-# name: Deploy to EKS
+name: Deploy to EKS
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - deploy-agnostic
 
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     env:
-#       IMAGE_TAG: minha-app-repo/minha-app:latest
-#     permissions:
-#       id-token: write   # necessário para OIDC
-#       contents: read    # geralmente precisa para checkout do código
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: minha-app-repo/minha-app:latest
+    permissions:
+      id-token: write   # necessário para OIDC
+      contents: read    # geralmente precisa para checkout do código
 
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-#     - name: Configure AWS credentials (OIDC)
-#       uses: aws-actions/configure-aws-credentials@v3
-#       with:
-#         role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GithubTerraformRole
-#         aws-region: us-east-1
+    - name: Configure AWS credentials (OIDC)
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GithubTerraformRole
+        aws-region: us-east-1
 
-#     - name: Setup Terraform
-#       uses: hashicorp/setup-terraform@v3
-#       with:
-#         terraform_version: 1.12.2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.12.2
     
-#     - name: Terraform Init
-#       run: terraform init
-#       working-directory: ./multicloud/terraform
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./multicloud/terraform
 
-#     - name: Terraform Apply
-#       run: terraform apply -auto-approve
-#       working-directory: ./multicloud/terraform
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./multicloud/terraform
 
 
-#     - name: Build Docker image
-#       run: |
-#         docker build -t $IMAGE_TAG .
-#       working-directory: ./multicloud/k8s
+    - name: Build Docker image
+      run: |
+        docker build -t $IMAGE_TAG .
+      working-directory: ./multicloud/k8s
 
-#     - name: Run Trivy vulnerability scanner
-#       uses: aquasecurity/trivy-action@0.28.0
-#       with:
-#         image-ref: ${{ env.IMAGE_TAG }}
-#         format: 'table'
-#         exit-code: '1'
-#         ignore-unfixed: true
-#         vuln-type: 'os,library'
-#         severity: 'CRITICAL'
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: ${{ env.IMAGE_TAG }}
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL'
 
-#     - name: Push Docker image
-#       run: |
-#         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-#         docker tag $IMAGE_TAG ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
-#         docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
-#       working-directory: ./multicloud/k8s
+    - name: Push Docker image
+      run: |
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+        docker tag $IMAGE_TAG ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
+        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo
+      working-directory: ./multicloud/k8s
 
-#     - name: Setup kubectl
-#       run: |
-#         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-#         chmod +x kubectl
-#         sudo mv kubectl /usr/local/bin/
+    - name: Setup kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
 
-#     - name: Update kubeconfig
-#       run: aws eks update-kubeconfig --region us-east-1 --name meu-cluster-eks # Revisar isso aqui
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --region us-east-1 --name meu-cluster-eks # Revisar isso aqui
 
-#     - name: Deploy to Kubernetes
-#       run: |
-#         kubectl apply -f k8s/deployment.yaml
-#         kubectl apply -f k8s/service.yaml
-#       working-directory: ./multicloud/k8s
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+      working-directory: ./multicloud/k8s
