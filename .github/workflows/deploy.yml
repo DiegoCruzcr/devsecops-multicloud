@@ -74,5 +74,7 @@ jobs:
       run: |
         kubectl apply -f deployment.yaml --validate=false
         kubectl apply -f service.yaml --validate=false
-        kubectl rollout restart deployment minha-app-repo
+        kubectl set image deployment/minha-app-repo \
+          minha-app-repo=782622073147.dkr.ecr.us-east-1.amazonaws.com/minha-app-repo:${{ env.IMAGE_TAG_HASH }}
+
       working-directory: ./multicloud/k8s
