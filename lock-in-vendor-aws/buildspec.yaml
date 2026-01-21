@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo "Construindo a imagem Docker"
-      - cd lock-in-vendor-aws
+      # - cd lock-in-vendor-aws
       - docker build -t python-app-devsecops .
       - docker tag python-app-devsecops:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
   post_build:
