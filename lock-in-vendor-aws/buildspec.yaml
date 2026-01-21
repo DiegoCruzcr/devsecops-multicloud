@@ -7,14 +7,15 @@ phases:
       - cd lock-in-vendor-aws
       - chmod +x deploy.sh
       - ./deploy.sh
+      - cd ..
       - echo "Logando no ECR"
-      - aws ecr get-login-password | docker login --username AWS --password-stdin 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops
+      - aws ecr get-login-password | docker login --username AWS --password-stdin 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops-stack
   build:
     commands:
       - echo "Construindo a imagem Docker"
-      # - cd lock-in-vendor-aws
+      - cd lock-in-vendor-aws
       - docker build -t python-app-devsecops-stack .
-      - docker tag python-app-devsecops-stack:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops:latest
+      - docker tag python-app-devsecops-stack:latest 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops-stack:latest
   post_build:
     commands:
       - echo "Fazendo push da imagem para o ECR"
