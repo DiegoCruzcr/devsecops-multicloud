@@ -4,6 +4,7 @@ phases:
   pre_build:
     commands:
       - echo "Deploy do cloudformation iniciado..."
+      - chmod +x lock-in-vendor-aws/deploy.sh
       - lock-in-vendor-aws/deploy.sh
       - echo "Logando no ECR"
       - aws ecr get-login-password | docker login --username AWS --password-stdin 782622073147.dkr.ecr.us-east-1.amazonaws.com/python-app-devsecops
